@@ -43,7 +43,7 @@ const CustomAlert = () => {
           open={isOpen}
           autoHideDuration={autoHide}
           onClose={handleClose}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           TransitionComponent={transition}
         >
           <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>

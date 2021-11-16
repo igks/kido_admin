@@ -5,20 +5,16 @@ import { Edit } from "@mui/icons-material";
 import Spacer from "../../components/shared/commons/Spacer";
 import * as Colors from "../../constants/colors";
 
-const Dashboard = () => {
+const Title = () => {
   const history = useHistory();
-  const categories = ["Cat 1", "Cat 2"];
+  const titles = ["Title 1", "Title 2"];
 
-  const addCategory = () => {
-    history.push("/form-category");
+  const addTitle = () => {
+    history.push("/form-title");
   };
 
-  const editCategory = (id) => {
-    history.push("/form-category", { id: id });
-  };
-
-  const toTitle = () => {
-    history.push("/titles");
+  const editTitle = (id) => {
+    history.push("/form-title", { id: id });
   };
 
   return (
@@ -37,17 +33,17 @@ const Dashboard = () => {
             color: Colors.textPrimary,
           }}
         >
-          Categories
+          Titles
         </Typography>
         <Box sx={{ heigh: 40 }}>
-          <Button variant="contained" size="small" onClick={addCategory}>
+          <Button variant="contained" size="small" onClick={addTitle}>
             Add New
           </Button>
         </Box>
       </Box>
-      {categories.map((category, index) => (
+      {titles.map((title, index) => (
         <Box
-          key={`category-${index}`}
+          key={`title-${index}`}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
@@ -55,16 +51,16 @@ const Dashboard = () => {
         >
           <Card
             sx={{ padding: 2, marginBottom: 3, width: "100%" }}
-            onClick={toTitle}
+            onClick={() => {}}
           >
-            {category}
+            {title}
           </Card>
           <Spacer width={10} />
           <Button
             variant="contained"
             size="small"
             color="warning"
-            onClick={() => editCategory(1)}
+            onClick={() => editTitle(1)}
             sx={{ width: 5 }}
           >
             <Edit />
@@ -75,4 +71,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Title;

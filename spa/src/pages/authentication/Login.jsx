@@ -1,17 +1,15 @@
-//===================================================
-// Date         : 04 Nov Sep 2021
-// Author       : I Gusti Kade Sugiantara
-// Description  : Login form user interface
-//===================================================
-// Revision History:
-// Name             Date            Description
-//
-//===================================================
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+} from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { showAlert } from "../../redux/actions/alert";
 import { loginSuccess } from "../../redux/actions/auth";
@@ -42,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="md">
       <Box sx={{ p: 1, backgroundColor: blue[300] }}>
         <Box display="flex" flexDirection="row" alignItems="center">
           <Spacer width={20} />
@@ -50,7 +48,7 @@ const Login = () => {
             variant="h2"
             sx={{ color: "white", fontSize: 30, fontWeight: "bold" }}
           >
-            Application Title
+            KiDo Admin
           </Typography>
         </Box>
       </Box>
@@ -72,7 +70,7 @@ const Login = () => {
                 <TextField
                   onChange={onChange}
                   defaultValue={value}
-                  label={"5-2-1 ID"}
+                  label={"Email"}
                   variant="standard"
                   inputProps={{ style: { textTransform: "uppercase" } }}
                 />
@@ -118,7 +116,7 @@ const Login = () => {
           </Box>
         </Paper>
       </Box>
-    </>
+    </Container>
   );
 };
 
