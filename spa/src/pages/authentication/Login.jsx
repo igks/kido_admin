@@ -14,6 +14,7 @@ import { blue } from "@mui/material/colors";
 import { showAlert } from "../../redux/actions/alert";
 import { loginSuccess } from "../../redux/actions/auth";
 import Spacer from "../../components/shared/commons/Spacer";
+import { login } from "../../services/auth-service";
 
 const Login = () => {
   const history = useHistory();
@@ -25,17 +26,18 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (formData) => {
-    if (formData.username !== "" && formData.password === "1234") {
+  const onSubmit = async (formData) => {
+    const response = await login(formData);
+    if (response.status == 401) {
+      dispatch(showAlert("error", "Credential invalid!"));
+    }
+    if (response?.success) {
       let account = {
-        username: formData.username.toUpperCase(),
+        username: "ADMIN",
       };
-
       dispatch(loginSuccess(account));
       dispatch(showAlert("success", "Login success!"));
       history.push("/dashboard");
-    } else {
-      dispatch(showAlert("error", "Credential invalid!"));
     }
   };
 
@@ -64,7 +66,7 @@ const Login = () => {
         <Paper elevation={5} sx={{ width: "50%", px: 3, py: 10 }}>
           <Box width="100%" display="flex" flexDirection="column">
             <Controller
-              name={"username"}
+              name={"email"}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <TextField
@@ -72,7 +74,7 @@ const Login = () => {
                   defaultValue={value}
                   label={"Email"}
                   variant="standard"
-                  inputProps={{ style: { textTransform: "uppercase" } }}
+                  inputProps={{ style: { textTransform: "lowercase" } }}
                 />
               )}
               rules={{ required: "Id is required!" }}
