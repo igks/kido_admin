@@ -7,3 +7,10 @@ export const login = async (formData) => {
   const result = await API.post(target, formData);
   return result;
 };
+
+export const logout = async () => {
+  let target = `${baseTarget}/logout`;
+
+  const result = await API.post(target, {});
+  return result;
+};

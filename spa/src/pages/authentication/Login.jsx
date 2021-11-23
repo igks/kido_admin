@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Box,
@@ -19,6 +19,7 @@ import { login } from "../../services/auth-service";
 const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const {
     handleSubmit,
@@ -35,11 +36,18 @@ const Login = () => {
       let account = {
         username: "ADMIN",
       };
+      localStorage.setItem("token", response.data.access_token);
       dispatch(loginSuccess(account));
       dispatch(showAlert("success", "Login success!"));
       history.push("/dashboard");
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/dashboard");
+    }
+  }, [isAuthenticated]);
 
   return (
     <Container maxWidth="md">
