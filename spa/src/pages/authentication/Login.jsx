@@ -29,7 +29,7 @@ const Login = () => {
 
   const onSubmit = async (formData) => {
     const response = await login(formData);
-    if (response.status == 401) {
+    if (response.status === 401) {
       dispatch(showAlert("error", "Credential invalid!"));
     }
     if (response?.success) {
@@ -47,6 +47,7 @@ const Login = () => {
     if (isAuthenticated) {
       history.push("/dashboard");
     }
+    // eslint-disable-next-line
   }, [isAuthenticated]);
 
   return (

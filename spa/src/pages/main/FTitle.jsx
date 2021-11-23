@@ -16,13 +16,11 @@ const FTitle = () => {
   const dispatch = useDispatch();
 
   const [currentId, setCurrentId] = useState(null);
-  const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
   const loadTitle = async (id) => {
     const response = await getOne(id);
     if (response.success) {
       setValue("title", response.data.data.title);
-      setCurrentCategoryId(response.data.data.category_id);
     }
   };
 

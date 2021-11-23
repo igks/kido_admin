@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, TextareaAutosize } from "@mui/material";
 import { List } from "@mui/icons-material";
 import IconLabelButton from "../../components/shared/commons/IconLabelButton";
 import ErrorMessage from "../../components/shared/commons/ErrorMessage";
 import Spacer from "../../components/shared/commons/Spacer";
 import * as Colors from "../../constants/colors";
 import { showAlert } from "../../redux/actions/alert";
-import { getOne, create, update } from "../../services/title-service";
+import { getOne, create, update } from "../../services/content-service";
 
 const FTitle = () => {
   const history = useHistory();
@@ -17,19 +17,27 @@ const FTitle = () => {
 
   const [currentId, setCurrentId] = useState(null);
 
-  // const loadMaster = async (id) => {
-  //   const response = await getOne(id);
-  //   if (response.success) {
-  //     setValue("masterProperty1", response.data.masterProperty1);
-  //     setValue("masterProperty2", response.data.masterProperty2);
-  //   }
-  // };
+  const loadContent = async () => {
+    let id = history.location.state?.id;
+    const response = await getOne(id);
+    if (response.success) {
+      setValue("sequence", response.data.data.sequence);
+      setValue("content", response.data.data.content);
+      setValue("meaning", response.data.data.meaning);
+      setValue("description", response.data.data.description);
+    }
+  };
 
   const createNewRecord = async (formData) => {
+    formData.title_id = history.location.state?.titleId;
+
     let response = await create(formData);
     if (response.success) {
       dispatch(showAlert("success", "New record added successfully."));
-      history.push("/dashboard");
+      history.push("/contents", {
+        titleId: history.location.state?.titleId,
+        categoryId: history.location.state?.categoryId,
+      });
     } else {
       if (response.errors != null) {
         Object.keys(response.errors).forEach((key) => {
@@ -43,10 +51,15 @@ const FTitle = () => {
   };
 
   const updateExistingRecord = async (formData) => {
+    formData.title_id = history.location.state?.titleId;
+
     let response = await update(currentId, formData);
     if (response.success) {
       dispatch(showAlert("success", "Record updated successfully."));
-      history.push("/dashboard");
+      history.push("/contents", {
+        titleId: history.location.state?.titleId,
+        categoryId: history.location.state?.categoryId,
+      });
     } else {
       if (response.errors != null) {
         Object.keys(response.errors).forEach((key) => {
@@ -80,7 +93,7 @@ const FTitle = () => {
     let id = history.location.state?.id;
     if (id !== null && id !== undefined) {
       setCurrentId(id);
-      // loadMaster(id);
+      loadContent();
     }
     // eslint-disable-next-line
   }, []);
@@ -103,15 +116,16 @@ const FTitle = () => {
             mb: 2,
           }}
         >
-          {currentId != null ? "Update Title" : "Add New Title"}
+          {currentId != null ? "Update Content" : "Add New Content"}
         </Typography>
 
         <Box>
           <TextField
             fullWidth
-            label={"Title name"}
+            type="number"
+            label={"Sequence"}
             variant="standard"
-            {...register("title", {
+            {...register("sequence", {
               required: {
                 value: true,
                 message: "Field is required!",
@@ -121,8 +135,61 @@ const FTitle = () => {
               shrink: true,
             }}
           />
-          {errors.title && <ErrorMessage message={errors.title.message} />}
+          {errors.sequence && (
+            <ErrorMessage message={errors.sequence.message} />
+          )}
         </Box>
+
+        <Spacer height={15} />
+        <Box>
+          <TextareaAutosize
+            minRows={3}
+            placeholder="Mantra..."
+            style={{ width: "100%" }}
+            {...register("content", {
+              required: {
+                value: true,
+                message: "Field is required!",
+              },
+            })}
+          />
+          {errors.content && <ErrorMessage message={errors.content.message} />}
+        </Box>
+
+        <Spacer height={15} />
+        <Box>
+          <TextareaAutosize
+            minRows={3}
+            placeholder="Arti..."
+            style={{ width: "100%" }}
+            {...register("meaning", {
+              required: {
+                value: true,
+                message: "Field is required!",
+              },
+            })}
+          />
+          {errors.meaning && <ErrorMessage message={errors.meaning.message} />}
+        </Box>
+
+        <Spacer height={15} />
+        <Box>
+          <TextareaAutosize
+            minRows={3}
+            placeholder="Deskripsi..."
+            style={{ width: "100%" }}
+            {...register("description", {
+              required: {
+                value: true,
+                message: "Field is required!",
+              },
+            })}
+          />
+          {errors.description && (
+            <ErrorMessage message={errors.description.message} />
+          )}
+        </Box>
+
         <Spacer height={10} />
         <Box display="flex">
           <Box sx={{ width: 100 }}>
@@ -130,7 +197,12 @@ const FTitle = () => {
               icon={<List />}
               text="Back"
               color="warning"
-              action={() => history.push("/dashboard")}
+              action={() =>
+                history.push("/contents", {
+                  titleId: history.location.state?.titleId,
+                  categoryId: history.location.state?.categoryId,
+                })
+              }
             />
           </Box>
           <Spacer width={20} />

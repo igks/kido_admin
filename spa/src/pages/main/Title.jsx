@@ -85,7 +85,12 @@ const Title = () => {
               >
                 <Card
                   sx={{ padding: 2, marginBottom: 3, width: "100%" }}
-                  onClick={() => {}}
+                  onClick={() => {
+                    history.push("/contents", {
+                      titleId: title.id,
+                      categoryId: title.category_id,
+                    });
+                  }}
                 >
                   {title.title}
                 </Card>
