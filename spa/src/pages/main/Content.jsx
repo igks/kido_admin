@@ -4,37 +4,34 @@ import { Typography, Box, Button, Card } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import Spacer from "../../components/shared/commons/Spacer";
 import * as Colors from "../../constants/colors";
-import { getByCategory } from "../../services/title-service";
+import { getByTitle } from "../../services/content-service";
 
-const Title = () => {
+const Content = () => {
   const history = useHistory();
-  const [titles, setTitle] = useState([]);
+  const [contents, setContent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadTitles = async () => {
+  const loadContent = async () => {
     let id = history.location.state?.id;
     if (id != null) {
-      let response = await getByCategory(id);
+      let response = await getByTitle(id);
       if (response?.success) {
-        setTitle(response.data.data);
+        setContent(response.data.data);
         setIsLoading(false);
       }
     }
   };
 
   const addTitle = () => {
-    history.push("/form-title", { categoryId: history.location.state?.id });
+    history.push("/form-content");
   };
 
   const editTitle = (id) => {
-    history.push("/form-title", {
-      id: id,
-      categoryId: history.location.state?.id,
-    });
+    history.push("/form-content", { id: id });
   };
 
   useEffect(() => {
-    loadTitles();
+    loadContent();
   }, []);
 
   return (
@@ -57,27 +54,29 @@ const Title = () => {
                 color: Colors.textPrimary,
               }}
             >
-              Titles
+              Contents
             </Typography>
             <Box sx={{ heigh: 40 }}>
               <Button
                 variant="contained"
                 size="small"
                 color="warning"
-                onClick={() => history.push("/dashboard")}
+                onClick={() =>
+                  history.push("/titles", { id: history.location.state?.id })
+                }
                 sx={{ marginRight: 3 }}
               >
                 Back
               </Button>
-              <Button variant="contained" size="small" onClick={addTitle}>
+              <Button variant="contained" size="small" onClick={() => {}}>
                 Add New
               </Button>
             </Box>
           </Box>
-          {titles.length > 0 &&
-            titles.map((title, index) => (
+          {contents.length > 0 &&
+            contents.map((content, index) => (
               <Box
-                key={`title-${index}`}
+                key={`content-${index}`}
                 display="flex"
                 flexDirection="row"
                 justifyContent="space-between"
@@ -87,14 +86,14 @@ const Title = () => {
                   sx={{ padding: 2, marginBottom: 3, width: "100%" }}
                   onClick={() => {}}
                 >
-                  {title.title}
+                  {content.mantram}
                 </Card>
                 <Spacer width={10} />
                 <Button
                   variant="contained"
                   size="small"
                   color="warning"
-                  onClick={() => editTitle(title.id)}
+                  onClick={() => editTitle(1)}
                   sx={{ width: 5 }}
                 >
                   <Edit />
@@ -107,4 +106,4 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default Content;

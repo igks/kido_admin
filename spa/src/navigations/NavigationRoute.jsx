@@ -16,6 +16,8 @@ import Dashboard from "../pages/main/Dashboard";
 import FCategory from "../pages/main/FCategory";
 import Title from "../pages/main/Title";
 import FTitle from "../pages/main/FTitle";
+import Content from "../pages/main/Content";
+import FContent from "../pages/main/FContent";
 
 const NavigationRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -53,6 +55,18 @@ const NavigationRoute = () => {
             exact
             path="/form-title"
             component={FTitle}
+            auth={isAuthenticated}
+          />
+          <PrivateRoute
+            exact
+            path="/contents"
+            component={Content}
+            auth={isAuthenticated}
+          />
+          <PrivateRoute
+            exact
+            path="/form-content"
+            component={FContent}
             auth={isAuthenticated}
           />
         </Switch>

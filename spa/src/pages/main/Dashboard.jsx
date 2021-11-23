@@ -27,8 +27,8 @@ const Dashboard = () => {
     history.push("/form-category", { id: id });
   };
 
-  const toTitle = () => {
-    history.push("/titles");
+  const toTitle = (id) => {
+    history.push("/titles", { id: id });
   };
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Dashboard = () => {
               >
                 <Card
                   sx={{ padding: 2, marginBottom: 3, width: "100%" }}
-                  onClick={toTitle}
+                  onClick={() => toTitle(category.id)}
                 >
                   {category.name}
                 </Card>

@@ -16,24 +16,20 @@ const FTitle = () => {
   const dispatch = useDispatch();
 
   const [currentId, setCurrentId] = useState(null);
-  const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
-  const loadTitle = async (id) => {
-    const response = await getOne(id);
-    if (response.success) {
-      setValue("title", response.data.data.title);
-      setCurrentCategoryId(response.data.data.category_id);
-    }
-  };
+  // const loadMaster = async (id) => {
+  //   const response = await getOne(id);
+  //   if (response.success) {
+  //     setValue("masterProperty1", response.data.masterProperty1);
+  //     setValue("masterProperty2", response.data.masterProperty2);
+  //   }
+  // };
 
   const createNewRecord = async (formData) => {
-    formData.category_id = history.location.state?.categoryId;
     let response = await create(formData);
     if (response.success) {
       dispatch(showAlert("success", "New record added successfully."));
-      history.push("/titles", {
-        id: history.location.state?.categoryId,
-      });
+      history.push("/dashboard");
     } else {
       if (response.errors != null) {
         Object.keys(response.errors).forEach((key) => {
@@ -47,13 +43,10 @@ const FTitle = () => {
   };
 
   const updateExistingRecord = async (formData) => {
-    formData.category_id = history.location.state?.categoryId;
     let response = await update(currentId, formData);
     if (response.success) {
       dispatch(showAlert("success", "Record updated successfully."));
-      history.push("/titles", {
-        id: history.location.state?.categoryId,
-      });
+      history.push("/dashboard");
     } else {
       if (response.errors != null) {
         Object.keys(response.errors).forEach((key) => {
@@ -87,7 +80,7 @@ const FTitle = () => {
     let id = history.location.state?.id;
     if (id !== null && id !== undefined) {
       setCurrentId(id);
-      loadTitle(id);
+      // loadMaster(id);
     }
     // eslint-disable-next-line
   }, []);
@@ -137,11 +130,7 @@ const FTitle = () => {
               icon={<List />}
               text="Back"
               color="warning"
-              action={() =>
-                history.push("/titles", {
-                  id: history.location.state?.categoryId,
-                })
-              }
+              action={() => history.push("/dashboard")}
             />
           </Box>
           <Spacer width={20} />
