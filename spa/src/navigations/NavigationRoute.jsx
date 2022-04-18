@@ -21,7 +21,7 @@ import FContent from "../pages/main/FContent";
 
 const NavigationRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const containerHeigh = window.innerHeight - 120 - 80;
+  const containerHeigh = window.innerHeight;
 
   return (
     <>
