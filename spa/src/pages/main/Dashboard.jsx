@@ -213,7 +213,7 @@ const Dashboard = () => {
                   paddingLeft: 4,
                 }}
               >
-                {i}
+                {i.name}
               </Typography>
             ))}
         </>
